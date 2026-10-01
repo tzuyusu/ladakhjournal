@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ladakh Journal</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@400;500;600&family=Inter:wght@600;700;800&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+html,body{margin:0;background:#B8CCC6;color:#2E3A6B;-webkit-font-smoothing:antialiased}
+*{cursor:none!important}
+a{color:#2E3A6B}a:hover{color:#5A66A0}
+</style>
+</helmet>
+
+<div data-screen-label="01 Enter" style="position:fixed;inset:0;z-index:50;background:#AEC6C1;color:#1E3FD8;overflow:hidden;transform:translateY({{ gateY }});transition:transform 1.4s cubic-bezier(.77,0,.18,1);pointer-events:{{ gatePE }};">
+  <div style="height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 6vw;text-align:center;box-sizing:border-box;">
+    <div style="font-family:'Inter',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:32px;">Welcome</div>
+    <h1 style="margin:0;max-width:900px;font-family:'Playfair Display','Noto Serif TC',serif;font-weight:600;font-size:clamp(34px,4.6vw,60px);line-height:1.2;letter-spacing:0.02em;text-wrap:balance;">印度·非印度<br>海拔五千公尺之上</h1>
+    <button onClick="{{ enter }}" onMouseEnter="{{ eyeOn }}" onMouseLeave="{{ eyeOff }}" onMouseMove="{{ eyeMove }}" style="position:relative;margin-top:72px;width:160px;height:160px;border:none;background:transparent;color:#1E3FD8;font-family:'Playfair Display','Noto Serif TC',serif;font-weight:600;font-size:28px;cursor:none;padding:0;display:flex;align-items:center;justify-content:center;">
+      <span style="position:absolute;left:50%;top:50%;width:{{ ringSize }};height:{{ ringSize }};transform:translate(-50%,-50%);border:1px solid #1E3FD8;border-radius:50%;box-sizing:border-box;transition:width .55s cubic-bezier(.2,.8,.2,1),height .55s cubic-bezier(.2,.8,.2,1);pointer-events:none;"></span>
+      <span style="position:relative;">Enter</span>
+    </button>
+  </div>
+</div>
+<sc-if value="{{ lbOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ lbClose }}" style="position:fixed;inset:0;z-index:65;">
+    <img ref="{{ lbImg }}" onClick="{{ stop }}" alt="" style="position:fixed;left:0;top:0;width:10px;height:10px;object-fit:cover;transform-origin:0 0;will-change:transform;box-shadow:0 30px 60px rgba(20,50,48,.3);"></img>
+    <div onClick="{{ stop }}" style="position:fixed;right:2.5vw;top:12vh;bottom:12vh;width:36vw;display:flex;flex-direction:column;justify-content:space-between;color:{{ lbInk }};opacity:{{ lbUi }};transition:opacity .45s;">
+      <div style="display:flex;flex-direction:column;gap:22px;">
+        <div style="font-family:'Inter',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.2em;">{{ lbIndex }}</div>
+        <div style="font-family:'Noto Serif TC','Playfair Display',serif;font-weight:700;font-size:37px;line-height:1.15;letter-spacing:0.02em;text-wrap:balance;white-space:pre-line;">{{ lbCaption }}</div>
+      </div>
+      <div style="display:flex;gap:16px;">
+        <button onClick="{{ lbPrev }}" aria-label="上一張" style="width:64px;height:64px;border-radius:50%;border:1px solid {{ lbInk }};background:transparent;display:flex;align-items:center;justify-content:center;cursor:none;transition:background .3s,transform .3s;" style-hover="background:{{ lbInkSoft }};transform:scale(1.08);">
+          <svg width="22" height="22" viewBox="0 0 22 22"><path d="M14 3 L6 11 L14 19" fill="none" stroke="{{ lbInk }}" stroke-width="1.5"></path></svg>
+        </button>
+        <button onClick="{{ lbNext }}" aria-label="下一張" style="width:64px;height:64px;border-radius:50%;border:1px solid {{ lbInk }};background:transparent;display:flex;align-items:center;justify-content:center;cursor:none;transition:background .3s,transform .3s;" style-hover="background:{{ lbInkSoft }};transform:scale(1.08);">
+          <svg width="22" height="22" viewBox="0 0 22 22"><path d="M8 3 L16 11 L8 19" fill="none" stroke="{{ lbInk }}" stroke-width="1.5"></path></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</sc-if>
+<div ref="{{ eye }}" style="position:fixed;left:0;top:0;z-index:70;width:56px;height:36px;margin:-18px 0 0 -28px;pointer-events:none;opacity:{{ eyeOpacity }};transition:opacity .2s;">
+  <svg width="56" height="36" viewBox="0 0 48 30"><path d="M2 15 Q24 -6 46 15 Q24 36 2 15 Z" fill="none" stroke="#1E3FD8" data-cursor-stroke="1" stroke-width="1.4"></path><circle cx="24" cy="15" r="6" fill="none" stroke="#1E3FD8" data-cursor-stroke="1" stroke-width="1.4"></circle><circle cx="24" cy="15" r="1.6" fill="#1E3FD8" data-cursor-fill="1"></circle></svg>
+</div>
+<div ref="{{ arrow }}" style="position:fixed;left:0;top:0;z-index:71;width:30px;height:44px;pointer-events:none;opacity:{{ arrowOpacity }};transition:opacity .2s;">
+  <svg width="30" height="44" viewBox="0 0 30 44"><path d="M2 2 L2 34 L10 27 L16 41 L21 39 L15 25 L26 25 Z" fill="none" stroke="#1E3FD8" data-cursor-stroke="1" stroke-width="1.4" stroke-linejoin="round"></path></svg>
+</div>
+
+<main>
+  <section ref="{{ heroSec }}" data-screen-label="02 Hero" style="position:relative;height:11000vh;background:#438A85;color:#1E3FD8;">
+    <div ref="{{ stage }}" style="position:sticky;top:0;height:100vh;min-height:460px;overflow:hidden;background:#AEC6C1;">
+      <div ref="{{ vidLayer }}" onClick="{{ vidClick }}" style="position:absolute;inset:0;z-index:9;display:none;opacity:0;transform-origin:50% 50%;pointer-events:none;background:#000;cursor:none;">
+        <video ref="{{ vidEl }}" src="assets/leh-video.mp4" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" preload="auto" style="display:block;width:100%;height:100%;object-fit:cover;"></video>
+      </div>
+      <div style="position:absolute;inset:0;z-index:10;overflow:hidden;opacity:{{ endOp }};pointer-events:{{ endPe }};transition:opacity .7s ease;">
+        <img src="assets/leh-end.jpg" alt="坐在操場邊的女孩們" style="display:block;width:100%;height:100%;object-fit:cover;transform:{{ endTf }};transform-origin:50% 50%;transition:transform 1.8s cubic-bezier(.65,0,.35,1);"></img>
+        <div style="position:absolute;left:0;right:0;bottom:9vh;display:flex;justify-content:center;">
+          <div onClick="{{ backToStart }}" style="font-family:'Noto Serif TC',serif;font-weight:600;font-size:min(2.6vw,4.6vh);letter-spacing:0.12em;color:#2B2622;cursor:none;text-decoration:underline;text-decoration-color:transparent;text-underline-offset:0.35em;text-decoration-thickness:1.5px;transition:transform .35s ease,text-shadow .35s ease,text-decoration-color .35s ease;" style-hover="transform:scale(1.06);text-decoration-color:#2B2622;text-shadow:0 6px 16px rgba(0,0,0,.28);">找回生活的速度感</div>
+        </div>
+      </div>
+      <div ref="{{ storyLayer8 }}" style="position:absolute;inset:0;z-index:8;display:none;align-items:center;justify-content:center;opacity:0;pointer-events:none;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:min(1.8vw,3.2vh);transform:translateY(-4vh);">
+          <div style="font-family:'Noto Serif TC',serif;font-weight:600;font-size:min(5.6vw,10.5vh);line-height:1;letter-spacing:0.02em;color:#F91B07;white-space:nowrap;">Leh：市中心也是很好買</div>
+          <div style="font-family:'Inter',sans-serif;font-weight:600;font-size:clamp(12px,1vw,15px);letter-spacing:0.24em;text-transform:uppercase;color:#F91B07;">Leh Main Bazaar</div>
+        </div>
+      </div>
+      <div ref="{{ storyLayer7 }}" style="position:absolute;inset:0;z-index:8;display:none;align-items:center;justify-content:center;opacity:0;pointer-events:none;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:min(1.8vw,3.2vh);transform:translateY(-4vh);">
+          <div style="font-family:'Noto Serif TC',serif;font-weight:600;font-size:min(5.6vw,10.5vh);line-height:1;letter-spacing:0.02em;color:#022E36;white-space:nowrap;">高山沙漠？高山湖泊？</div>
+          <div style="font-family:'Inter',sans-serif;font-weight:600;font-size:clamp(12px,1vw,15px);letter-spacing:0.24em;text-transform:uppercase;color:#022E36;">The North and the East</div>
+        </div>
+      </div>
+      <div ref="{{ storyLayer6 }}" style="position:absolute;inset:0;z-index:8;display:none;align-items:center;justify-content:center;opacity:0;pointer-events:none;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:min(1.8vw,3.2vh);transform:translateY(-4vh);">
+          <div style="font-family:'Noto Serif TC',serif;font-weight:600;font-size:min(5.6vw,10.5vh);line-height:1;letter-spacing:0.02em;color:#30762F;white-space:nowrap;">往西：穿越時空</div>
+          <div style="font-family:'Inter',sans-serif;font-weight:600;font-size:clamp(12px,1vw,15px);letter-spacing:0.24em;text-transform:uppercase;color:#30762F;">The West</div>
+        </div>
+      </div>
+      <div ref="{{ storyLayer5 }}" style="position:absolute;inset:0;z-index:8;display:none;align-items:center;justify-content:center;opacity:0;pointer-events:none;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:min(1.8vw,3.2vh);transform:translateY(-4vh);">
+          <div style="font-family:'Noto Serif TC',serif;font-weight:600;font-size:min(5.6vw,10.5vh);line-height:1;letter-spacing:0.02em;color:#F4D2EF;white-space:nowrap;">往東：走進拉達克宗教核心</div>
+          <div style="font-family:'Inter',sans-serif;font-weight:600;font-size:clamp(12px,1vw,15px);letter-spacing:0.24em;text-transform:uppercase;color:#F4D2EF;">The East</div>
+        </div>
+      </div>
+      <div ref="{{ lmapLayer }}" style="position:absolute;inset:0;z-index:6;opacity:0;display:none;transform-origin:50% 55%;">
+        <iframe ref="{{ lmapFrame }}" src="LadakhMap.html" title="拉達克旅遊路線地圖" style="position:absolute;inset:0;width:100%;height:100%;border:0;pointer-events:none;"></iframe>
+        <button ref="{{ lmapBtn }}" onClick="{{ lmapPlay }}" onMouseEnter="{{ lmapOn }}" onMouseLeave="{{ lmapOff }}" aria-label="點亮路線" style="position:absolute;left:50%;bottom:7vh;transform:translateX(-50%);width:84px;height:84px;border-radius:50%;border:1.3px solid #F4926A;background:{{ lmapBg }};opacity:{{ lmapOpacity }};display:flex;align-items:center;justify-content:center;cursor:none;transition:background .3s ease,opacity .3s ease;padding:0;">
+          <svg width="30" height="30" viewBox="0 0 24 24"><path d="M21.5 2.5 L2.5 10.2 L9.6 13.4 L21.5 2.5 L13.6 21.5 L9.6 13.4 Z" fill="none" stroke="{{ lmapInk }}" stroke-width="1.3" stroke-linejoin="round"></path><path d="M9.6 13.4 L9.6 18.8 L12.1 15.9" fill="none" stroke="{{ lmapInk }}" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round"></path></svg>
+        </button>
+      </div>
+      <div ref="{{ storyLayer4 }}" style="position:absolute;inset:0;z-index:8;display:none;align-items:center;justify-content:center;opacity:0;pointer-events:none;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:min(1.8vw,3.2vh);transform:translateY(-4vh);">
+          <div style="font-family:'Noto Serif TC',serif;font-weight:600;font-size:min(5.6vw,10.5vh);line-height:1;letter-spacing:0.02em;color:#F4926A;white-space:nowrap;">經典旅遊路線</div>
+          <div style="font-family:'Inter',sans-serif;font-weight:600;font-size:clamp(12px,1vw,15px);letter-spacing:0.24em;text-transform:uppercase;color:#F4926A;">Travel Guide</div>
+        </div>
+      </div>
+      <div ref="{{ storyLayer3 }}" style="position:absolute;inset:0;z-index:8;display:none;align-items:center;justify-content:center;opacity:0;pointer-events:none;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:min(1.8vw,3.2vh);transform:translateY(-4vh);">
+          <div style="font-family:'Noto Serif TC',serif;font-weight:600;font-size:min(5.6vw,10.5vh);line-height:1;letter-spacing:0.02em;color:#F5A90F;white-space:nowrap;">高山上的第二個家</div>
+          <div style="font-family:'Inter',sans-serif;font-weight:600;font-size:clamp(12px,1vw,15px);letter-spacing:0.24em;text-transform:uppercase;color:#F5A90F;">What is “Ladakh”?</div>
+        </div>
+      </div>
+      <div ref="{{ coverLayer }}" style="position:absolute;inset:0;z-index:7;display:none;opacity:0;transform-origin:50% 50%;pointer-events:none;">
+        <img src="assets/leh-cover.jpg" alt="列城谷地與雪山" style="display:block;width:100%;height:100%;object-fit:cover;"></img>
+      </div>
+      <div ref="{{ photoLayer }}" style="position:absolute;inset:0;z-index:-40;display:none;opacity:0;transform-origin:50% 50%;pointer-events:none;">
+        <img src="assets/leh-backyard-web.jpg" alt="列城後院與雪山" style="display:block;width:100%;height:100%;object-fit:cover;"></img>
+      </div>
+      <div ref="{{ storyLayer }}" style="position:absolute;inset:0;z-index:4;display:none;align-items:center;justify-content:center;opacity:0;pointer-events:none;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:min(1.8vw,3.2vh);transform:translateY(-4vh);">
+          <div style="font-family:'Noto Serif TC',serif;font-weight:600;font-size:min(5.6vw,10.5vh);line-height:1;letter-spacing:0.02em;color:#FF6F4F;white-space:nowrap;">故事的起點</div>
+          <div style="font-family:'Inter',sans-serif;font-weight:600;font-size:clamp(12px,1vw,15px);letter-spacing:0.24em;text-transform:uppercase;color:#FF6F4F;">Back to 2014</div>
+        </div>
+      </div>
+      <div ref="{{ storyLayer2 }}" style="position:absolute;inset:0;z-index:4;display:none;align-items:center;justify-content:center;opacity:0;pointer-events:none;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:min(1.8vw,3.2vh);transform:translateY(-4vh);">
+          <div style="font-family:'Noto Serif TC',serif;font-weight:600;font-size:min(5.6vw,10.5vh);line-height:1;letter-spacing:0.02em;color:#1E44D8;white-space:nowrap;">拉達克教會我的兩件事</div>
+          <div style="font-family:'Inter',sans-serif;font-weight:600;font-size:clamp(12px,1vw,15px);letter-spacing:0.24em;text-transform:uppercase;color:#1E44D8;">Two Lessons Learned</div>
+        </div>
+      </div>
+      <div ref="{{ quote2 }}" style="position:absolute;inset:0;z-index:4;display:none;align-items:center;justify-content:center;opacity:0;pointer-events:none;">
+        <div style="max-width:min(62vw,900px);text-align:center;font-family:'Noto Serif TC',serif;font-weight:500;font-size:min(2.8vw,5.2vh);line-height:1.6;letter-spacing:0.04em;color:#1E44D8;text-wrap:balance;transform:translateY(-2vh);">「我很幸運可以獲得讀書的機會，未來長大我也要成為有能力幫助別人的人」</div>
+      </div>
+      <div ref="{{ quote3 }}" style="position:absolute;inset:0;z-index:4;display:none;align-items:center;justify-content:center;opacity:0;pointer-events:none;">
+        <div style="max-width:min(62vw,900px);text-align:center;font-family:'Noto Serif TC',serif;font-weight:500;font-size:min(2.8vw,5.2vh);line-height:1.6;letter-spacing:0.04em;color:#1E44D8;text-wrap:balance;transform:translateY(-2vh);">「相遇是一件很美好的事，為什麼要哭呢？」</div>
+      </div>
+      <div ref="{{ globeLayer }}" style="position:absolute;inset:0;z-index:-30;opacity:0;display:none;transform-origin:50% 60%;">
+        <iframe ref="{{ globeFrame }}" src="Globe.html" title="旅程地球" style="position:absolute;inset:0;width:100%;height:100%;border:0;pointer-events:none;"></iframe>
+      </div>
+      <div data-sp="0" data-zf="sp" data-z="-700" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(-21vw,-16vh);">
+          <div data-photo="4" style="cursor:none;position:relative;width:30vw;aspect-ratio:3/2;overflow:hidden;">
+            <img src="assets/story-2-1.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:rgb(3,36,58);opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-sp="1" data-zf="sp" data-z="-1350" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(23vw,14vh);">
+          <div data-photo="8" style="cursor:none;position:relative;width:26vw;aspect-ratio:3/2;overflow:hidden;">
+            <img src="assets/story-2-5.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:rgb(3,36,58);opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-sp="2" data-zf="sp" data-z="-2000" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(-24vw,18vh);">
+          <div data-photo="5" style="cursor:none;position:relative;width:28vw;aspect-ratio:3/2;overflow:hidden;">
+            <img src="assets/story-2-3.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:rgb(3,36,58);opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-sp="3" data-zf="sp" data-z="-2650" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(22vw,-17vh);">
+          <div data-photo="7" style="cursor:none;position:relative;width:30vw;aspect-ratio:16/9;overflow:hidden;">
+            <img src="assets/story-2-4.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:rgb(3,36,58);opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-sp="4" data-zf="sp" data-z="-3300" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(0vw,-2vh);">
+          <div data-photo="6" style="cursor:none;position:relative;width:40vw;aspect-ratio:3/2;overflow:hidden;">
+            <img src="assets/story-2-2.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:rgb(3,36,58);opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-sq="0" data-zf="sq" data-z="-700" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(-21vw,-16vh);">
+          <div data-ph2="0" data-photo="9" style="cursor:none;position:relative;width:30vw;aspect-ratio:3/2;overflow:hidden;">
+            <img src="assets/story-c2-1.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#1E44D8;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-sq="1" data-zf="sq" data-z="-1350" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(23vw,14vh);">
+          <div data-ph2="1" data-photo="10" style="cursor:none;position:relative;width:26vw;aspect-ratio:3/2;overflow:hidden;">
+            <img src="assets/story-c2-2.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#1E44D8;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-sq="2" data-zf="sq" data-z="-2000" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(-24vw,18vh);">
+          <div data-ph2="2" data-photo="11" style="cursor:none;position:relative;width:28vw;aspect-ratio:3/2;overflow:hidden;">
+            <img src="assets/story-c2-3.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#1E44D8;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-sq="3" data-zf="sq" data-z="-2650" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(22vw,-17vh);">
+          <div data-ph2="3" data-photo="12" style="cursor:none;position:relative;width:30vw;aspect-ratio:1.333;overflow:hidden;">
+            <img src="assets/story-c2-7.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#1E44D8;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-sr="0" data-zf="sr" data-z="-700" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(-21vw,-16vh);">
+          <div data-ph2="r0" data-photo="13" style="cursor:none;position:relative;width:30vw;aspect-ratio:1.500;overflow:hidden;">
+            <img src="assets/story-c2-4.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#1E44D8;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-sr="1" data-zf="sr" data-z="-2000" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(-24vw,18vh);">
+          <div data-ph2="r1" data-photo="14" style="cursor:none;position:relative;width:18.7vw;aspect-ratio:0.669;overflow:hidden;">
+            <img src="assets/story-c2-5.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#1E44D8;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-sr="2" data-zf="sr" data-z="-1350" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(23vw,14vh);">
+          <div data-ph2="r2" data-photo="15" style="cursor:none;position:relative;width:26vw;aspect-ratio:1.777;overflow:hidden;">
+            <img src="assets/story-c2-6.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#1E44D8;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-st="0" data-zf="st" data-z="-700" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(-24vw,-14vh);">
+          <div data-ph2="t0" data-photo="16" style="cursor:none;position:relative;width:24.0vw;aspect-ratio:1.333;overflow:hidden;">
+            <img src="assets/story-c3-1.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#2E6E7C;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-st="1" data-zf="st" data-z="-1150" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(22vw,12vh);">
+          <div data-ph2="t1" data-photo="17" style="cursor:none;position:relative;width:24.0vw;aspect-ratio:1.332;overflow:hidden;">
+            <img src="assets/story-c3-2.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#2E6E7C;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-st="2" data-zf="st" data-z="-1600" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(-6vw,20vh);">
+          <div data-ph2="t2" data-photo="18" style="cursor:none;position:relative;width:15.0vw;aspect-ratio:0.800;overflow:hidden;">
+            <img src="assets/story-c3-3.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#2E6E7C;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-st="3" data-zf="st" data-z="-2050" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(26vw,-16vh);">
+          <div data-ph2="t3" data-photo="19" style="cursor:none;position:relative;width:24.0vw;aspect-ratio:1.605;overflow:hidden;">
+            <img src="assets/story-c3-4.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#2E6E7C;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-st="4" data-zf="st" data-z="-2500" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(-26vw,14vh);">
+          <div data-ph2="t4" data-photo="20" style="cursor:none;position:relative;width:15.0vw;aspect-ratio:0.800;overflow:hidden;">
+            <img src="assets/story-c3-5.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#2E6E7C;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-st="5" data-zf="st" data-z="-2950" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(6vw,-20vh);">
+          <div data-ph2="t5" data-photo="21" style="cursor:none;position:relative;width:24.0vw;aspect-ratio:1.334;overflow:hidden;">
+            <img src="assets/story-c3-6.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#2E6E7C;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-st="6" data-zf="st" data-z="-3400" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(24vw,16vh);">
+          <div data-ph2="t6" data-photo="22" style="cursor:none;position:relative;width:24.0vw;aspect-ratio:1.905;overflow:hidden;">
+            <img src="assets/story-c3-7.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#2E6E7C;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-st="7" data-zf="st" data-z="-3850" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(-20vw,-6vh);">
+          <div data-ph2="t7" data-photo="23" style="cursor:none;position:relative;width:24.0vw;aspect-ratio:1.777;overflow:hidden;">
+            <img src="assets/story-c3-8b.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#2E6E7C;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-st="8" data-zf="st" data-z="-4300" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(0vw,-2vh);">
+          <div data-ph2="t8" data-photo="24" style="cursor:none;position:relative;width:24.7vw;aspect-ratio:1.000;overflow:hidden;">
+            <img src="assets/story-c3-9.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#2E6E7C;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-su="0" data-zf="su" data-z="-700" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(-24vw,-14vh);">
+          <div data-ph2="u0" data-photo="25" style="cursor:none;position:relative;width:24.0vw;aspect-ratio:1.400;overflow:hidden;">
+            <img src="assets/story-c5-1.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#1B4A3F;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-su="1" data-zf="su" data-z="-1150" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(22vw,12vh);">
+          <div data-ph2="u1" data-photo="26" style="cursor:none;position:relative;width:24.0vw;aspect-ratio:1.333;overflow:hidden;">
+            <img src="assets/story-c5-2.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#1B4A3F;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-su="2" data-zf="su" data-z="-1600" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(-6vw,20vh);">
+          <div data-ph2="u2" data-photo="27" style="cursor:none;position:relative;width:24.0vw;aspect-ratio:1.778;overflow:hidden;">
+            <img src="assets/story-c5-3.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#1B4A3F;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-su="3" data-zf="su" data-z="-2050" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(26vw,-16vh);">
+          <div data-ph2="u3" data-photo="28" style="cursor:none;position:relative;width:24.0vw;aspect-ratio:1.333;overflow:hidden;">
+            <img src="assets/story-c5-4.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#1B4A3F;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-su="4" data-zf="su" data-z="-2500" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(-26vw,14vh);">
+          <div data-ph2="u4" data-photo="29" style="cursor:none;position:relative;width:24.0vw;aspect-ratio:1.400;overflow:hidden;">
+            <img src="assets/story-c5-5.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#1B4A3F;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-su="5" data-zf="su" data-z="-2950" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(6vw,-20vh);">
+          <div data-ph2="u5" data-photo="30" style="cursor:none;position:relative;width:24.0vw;aspect-ratio:1.371;overflow:hidden;">
+            <img src="assets/story-c5-6.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#1B4A3F;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-su="6" data-zf="su" data-z="-3400" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(24vw,16vh);">
+          <div data-ph2="u6" data-photo="31" style="cursor:none;position:relative;width:24.0vw;aspect-ratio:1.400;overflow:hidden;">
+            <img src="assets/story-c5-7.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#1B4A3F;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-su="7" data-zf="su" data-z="-3850" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(-20vw,-6vh);">
+          <div data-ph2="u7" data-photo="32" style="cursor:none;position:relative;width:24.0vw;aspect-ratio:1.508;overflow:hidden;">
+            <img src="assets/story-c5-8.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#1B4A3F;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-su="8" data-zf="su" data-z="-4300" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(18vw,-8vh);">
+          <div data-ph2="u8" data-photo="33" style="cursor:none;position:relative;width:24.0vw;aspect-ratio:1.333;overflow:hidden;">
+            <img src="assets/story-c5-9.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#1B4A3F;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-su="9" data-zf="su" data-z="-4750" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(0vw,-2vh);">
+          <div data-ph2="u9" data-photo="34" style="cursor:none;position:relative;width:31.2vw;aspect-ratio:1.500;overflow:hidden;">
+            <img src="assets/story-c5-10.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#1B4A3F;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-sw="0" data-zf="sw" data-z="-700" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(-24vw,-14vh);">
+          <div data-ph2="w0" data-photo="35" style="cursor:none;position:relative;width:24.0vw;aspect-ratio:1.778;overflow:hidden;">
+            <img src="assets/story-c6-1.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#30762F;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-sw="1" data-zf="sw" data-z="-1150" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(22vw,12vh);">
+          <div data-ph2="w1" data-photo="36" style="cursor:none;position:relative;width:24.0vw;aspect-ratio:1.501;overflow:hidden;">
+            <img src="assets/story-c6-2.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#30762F;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-sw="2" data-zf="sw" data-z="-1600" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(-6vw,20vh);">
+          <div data-ph2="w2" data-photo="37" style="cursor:none;position:relative;width:24.0vw;aspect-ratio:1.903;overflow:hidden;">
+            <img src="assets/story-c6-3.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#30762F;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-sw="3" data-zf="sw" data-z="-2050" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(26vw,-16vh);">
+          <div data-ph2="w3" data-photo="38" style="cursor:none;position:relative;width:24.0vw;aspect-ratio:1.333;overflow:hidden;">
+            <img src="assets/story-c6-4.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#30762F;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-sw="4" data-zf="sw" data-z="-2500" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(-26vw,14vh);">
+          <div data-ph2="w4" data-photo="39" style="cursor:none;position:relative;width:24.0vw;aspect-ratio:1.779;overflow:hidden;">
+            <img src="assets/story-c6-5.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#30762F;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-sw="5" data-zf="sw" data-z="-2950" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(6vw,-20vh);">
+          <div data-ph2="w5" data-photo="40" style="cursor:none;position:relative;width:24.0vw;aspect-ratio:1.333;overflow:hidden;">
+            <img src="assets/story-c6-6.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#30762F;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-sw="6" data-zf="sw" data-z="-3400" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(24vw,16vh);">
+          <div data-ph2="w6" data-photo="41" style="cursor:none;position:relative;width:24.0vw;aspect-ratio:1.628;overflow:hidden;">
+            <img src="assets/story-c6-7.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#30762F;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-sw="7" data-zf="sw" data-z="-3850" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(0vw,-2vh);">
+          <div data-ph2="w7" data-photo="42" style="cursor:none;position:relative;width:31.2vw;aspect-ratio:1.777;overflow:hidden;">
+            <img src="assets/story-c6-8.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#30762F;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-sx="0" data-zf="sx" data-z="-700" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(-24vw,-14vh);">
+          <div data-ph2="x0" data-photo="43" style="cursor:none;position:relative;width:24.0vw;aspect-ratio:1.333;overflow:hidden;">
+            <img src="assets/story-c7-1.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#022E36;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-sx="1" data-zf="sx" data-z="-1150" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(22vw,12vh);">
+          <div data-ph2="x1" data-photo="44" style="cursor:none;position:relative;width:24.0vw;aspect-ratio:1.333;overflow:hidden;">
+            <img src="assets/story-c7-2.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#022E36;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-sx="2" data-zf="sx" data-z="-1600" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(-6vw,20vh);">
+          <div data-ph2="x2" data-photo="45" style="cursor:none;position:relative;width:19.0vw;aspect-ratio:1.000;overflow:hidden;">
+            <img src="assets/story-c7-3.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#022E36;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-sx="3" data-zf="sx" data-z="-2050" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(26vw,-16vh);">
+          <div data-ph2="x3" data-photo="46" style="cursor:none;position:relative;width:15.0vw;aspect-ratio:0.700;overflow:hidden;">
+            <img src="assets/story-c7-4.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#022E36;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-sx="4" data-zf="sx" data-z="-2500" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(-26vw,14vh);">
+          <div data-ph2="x4" data-photo="47" style="cursor:none;position:relative;width:24.0vw;aspect-ratio:1.503;overflow:hidden;">
+            <img src="assets/story-c7-5.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#022E36;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-sx="5" data-zf="sx" data-z="-2950" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(6vw,-20vh);">
+          <div data-ph2="x5" data-photo="48" style="cursor:none;position:relative;width:24.0vw;aspect-ratio:1.333;overflow:hidden;">
+            <img src="assets/story-c7-6.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#022E36;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-sx="6" data-zf="sx" data-z="-3400" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(0vw,-2vh);">
+          <div data-ph2="x6" data-photo="49" style="cursor:none;position:relative;width:31.2vw;aspect-ratio:1.333;overflow:hidden;">
+            <img src="assets/story-c7-7.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#022E36;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-sy="0" data-zf="sy" data-z="-700" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(-24vw,-14vh);">
+          <div data-ph2="y0" data-photo="50" style="cursor:none;position:relative;width:15.0vw;aspect-ratio:0.564;overflow:hidden;">
+            <img src="assets/story-c8-1.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#8C8C8C;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-sy="1" data-zf="sy" data-z="-1150" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(22vw,12vh);">
+          <div data-ph2="y1" data-photo="51" style="cursor:none;position:relative;width:15.0vw;aspect-ratio:0.750;overflow:hidden;">
+            <img src="assets/story-c8-2.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#8C8C8C;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-sy="2" data-zf="sy" data-z="-1600" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(-6vw,20vh);">
+          <div data-ph2="y2" data-photo="52" style="cursor:none;position:relative;width:15.0vw;aspect-ratio:0.750;overflow:hidden;">
+            <img src="assets/story-c8-3.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#8C8C8C;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-sy="3" data-zf="sy" data-z="-2050" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(26vw,-16vh);">
+          <div data-ph2="y3" data-photo="53" style="cursor:none;position:relative;width:24.0vw;aspect-ratio:1.507;overflow:hidden;">
+            <img src="assets/story-c8-4.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#8C8C8C;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-sy="4" data-zf="sy" data-z="-2500" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(-26vw,14vh);">
+          <div data-ph2="y4" data-photo="54" style="cursor:none;position:relative;width:19.0vw;aspect-ratio:1.000;overflow:hidden;">
+            <img src="assets/story-c8-5.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#8C8C8C;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-sy="5" data-zf="sy" data-z="-2950" style="position:absolute;left:0;right:0;top:50%;height:0;z-index:3;display:none;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;">
+        <div style="transform:translate(0vw,-2vh);">
+          <div data-ph2="y5" data-photo="55" style="cursor:none;position:relative;width:31.2vw;aspect-ratio:1.333;overflow:hidden;">
+            <img src="assets/story-c8-6.jpg" alt="" style="display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s ease;"></img>
+            <div data-sptint="1" style="position:absolute;inset:0;background:#8C8C8C;opacity:.75;transition:opacity .5s ease;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div ref="{{ routeUi }}" style="position:absolute;inset:0;z-index:5;opacity:0;pointer-events:none;">
+    <div style="position:absolute;left:0;right:0;top:9vh;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;pointer-events:none;color:#FFB266;text-shadow:0 1px 12px rgba(30,70,66,.35);">
+      <div style="font-family:'Inter',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;">The Route</div>
+      <div style="font-family:'Playfair Display','Noto Serif TC',serif;font-weight:600;font-size:clamp(26px,3vw,44px);line-height:1.2;">{{ routeLine }}</div>
+    </div>
+    <button onClick="{{ fly }}" onMouseEnter="{{ planeOn }}" onMouseLeave="{{ planeOff }}" aria-label="發射" style="position:absolute;left:50%;bottom:7vh;transform:translateX(-50%);width:84px;height:84px;border-radius:50%;border:1px solid #F5CB7A;background:{{ planeBg }};display:flex;align-items:center;justify-content:center;cursor:none;transition:background .3s,opacity .4s;opacity:{{ planeOpacity }};">
+      <svg width="30" height="30" viewBox="0 0 24 24"><path d="M21.5 2.5 L2.5 10.2 L9.6 13.4 L21.5 2.5 L13.6 21.5 L9.6 13.4 Z" fill="none" stroke="{{ planeInk }}" stroke-width="1.3" stroke-linejoin="round"></path><path d="M9.6 13.4 L9.6 18.8 L12.1 15.9" fill="none" stroke="{{ planeInk }}" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round"></path></svg>
+    </button>
+      </div>
+      <div data-depth="-2850" data-zf="-300" style="position:absolute;left:0;right:0;top:44%;height:0;display:flex;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;z-index:-10;">
+        <div style="transform:translate(-23.40vw,-39.00vh);">
+          <div data-photo="0" style="cursor:none;position:relative;transition:transform .5s cubic-bezier(.2,.8,.2,1);width:28.60vw;aspect-ratio:4/3;overflow:hidden;" style-hover="transform:scale(1.06);">
+            <img src="assets/rickshaw.png" alt="德里街頭的嘟嘟車" style="display:block;width:100%;height:100%;object-fit:cover;"></img>
+            <div data-tint="1" style="position:absolute;inset:0;background:#438A85;mix-blend-mode:color;pointer-events:none;"></div>
+            <div data-tint=".3" style="position:absolute;inset:0;background:#438A85;opacity:.3;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-depth="-3150" data-zf="-600" style="position:absolute;left:0;right:0;top:44%;height:0;display:flex;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;z-index:-11;">
+        <div style="transform:translate(33.60vw,-48.00vh);">
+          <div data-photo="1" style="cursor:none;position:relative;transition:transform .5s cubic-bezier(.2,.8,.2,1);width:35.20vw;aspect-ratio:16/9;overflow:hidden;" style-hover="transform:scale(1.06);">
+            <img src="assets/street.png" alt="舊德里市集街道" style="display:block;width:100%;height:100%;object-fit:cover;"></img>
+            <div data-tint="1" style="position:absolute;inset:0;background:#438A85;mix-blend-mode:color;pointer-events:none;"></div>
+            <div data-tint=".3" style="position:absolute;inset:0;background:#438A85;opacity:.3;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-depth="-2400" data-zf="150" style="position:absolute;left:0;right:0;top:44%;height:0;display:flex;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;z-index:-12;">
+        <div style="transform:translate(-30.60vw,10.20vh);">
+          <div data-photo="2" style="cursor:none;position:relative;transition:transform .5s cubic-bezier(.2,.8,.2,1);width:11.05vw;aspect-ratio:3/4;overflow:hidden;" style-hover="transform:scale(1.06);">
+            <img src="assets/arch.png" alt="拱門望向伊薩汗陵" style="display:block;width:100%;height:100%;object-fit:cover;"></img>
+            <div data-tint="1" style="position:absolute;inset:0;background:#438A85;mix-blend-mode:color;pointer-events:none;"></div>
+            <div data-tint=".3" style="position:absolute;inset:0;background:#438A85;opacity:.3;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-depth="-2750" data-zf="-200" style="position:absolute;left:0;right:0;top:44%;height:0;display:flex;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;z-index:-13;">
+        <div style="transform:translate(39.60vw,28.80vh);">
+          <div data-photo="3" style="cursor:none;position:relative;transition:transform .5s cubic-bezier(.2,.8,.2,1);width:24.00vw;aspect-ratio:4/3;overflow:hidden;" style-hover="transform:scale(1.06);">
+            <img src="assets/humayun-photo.png" alt="胡馬雍陵" style="display:block;width:100%;height:100%;object-fit:cover;"></img>
+            <div data-tint="1" style="position:absolute;inset:0;background:#438A85;mix-blend-mode:color;pointer-events:none;"></div>
+            <div data-tint=".3" style="position:absolute;inset:0;background:#438A85;opacity:.3;pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+      <div data-depth="-2100" data-zf="450" data-title="1" style="position:absolute;left:0;right:0;top:44%;height:0;display:flex;align-items:center;justify-content:center;transform-origin:50% 50%;opacity:0;z-index:-1;">
+        <div style="font-family:'Playfair Display','Noto Serif TC',serif;display:flex;align-items:baseline;gap:0.28em;font-weight:500;font-size:7.70vw;line-height:1;letter-spacing:0.01em;text-transform:uppercase;color:#F5CB7A;font-variant-numeric:lining-nums;white-space:nowrap;transform:translateY(2.20vh);"><span style="font-family:'Noto Serif TC',serif;font-weight:600;font-size:0.82em;">印度</span><span style="font-size:calc(0.82em - 2px);">India</span></div>
+      </div>
+      <div ref="{{ lJ }}" data-depth="-1100" style="position:absolute;left:0;right:0;top:44%;height:0;display:flex;align-items:center;justify-content:center;transform-origin:50% 50%;z-index:0;">
+        <div style="text-align:center;font-family:'Playfair Display',serif;font-weight:400;font-size:clamp(130px,26vw,460px);line-height:.8;font-variant-numeric:lining-nums;font-feature-settings:'lnum' 1;letter-spacing:-0.02em;color:#AEC6C1;-webkit-text-stroke:3px #1E3FD8;paint-order:stroke fill;user-select:none;">Ladakh</div>
+      </div>
+      <div ref="{{ lImg }}" data-depth="-550" style="position:absolute;left:0;right:0;top:44%;height:0;display:flex;align-items:center;justify-content:center;transform-origin:50% 50%;z-index:1;">
+        <img src="assets/entry.png" alt="拉達克面具舞者" style="height:clamp(280px,58vh,640px);width:auto;display:block;transform:translateY(4%);"></img>
+      </div>
+      <div ref="{{ lL }}" data-depth="0" style="position:absolute;left:0;right:0;top:44%;height:0;display:flex;align-items:center;justify-content:center;transform-origin:50% 50%;z-index:2;">
+        <h1 style="margin:0;text-align:center;transform:translateY(clamp(8px,1.6vw,28px));font-family:'Inter',sans-serif;font-weight:800;font-size:clamp(38px,6.4vw,112px);line-height:1;letter-spacing:-0.03em;text-transform:uppercase;color:#1E3FD8;">Jullay</h1>
+      </div>
+      <div ref="{{ badgeWrap }}" style="position:absolute;left:50%;bottom:4vh;width:min(168px,19vh);height:min(168px,19vh);transform:translateX(-50%);z-index:3;display:flex;align-items:center;justify-content:center;">
+      <svg ref="{{ badge }}" width="100%" height="100%" viewBox="0 0 168 168" style="position:absolute;inset:0;">
+        <defs><path id="ringPath" d="M84,84 m-70,0 a70,70 0 1,1 140,0 a70,70 0 1,1 -140,0"></path></defs>
+        <text fill="#1E3FD8" style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;"><textPath href="#ringPath" textLength="436" lengthAdjust="spacing">Thin air, high passes, Jullay, Ladakh ·</textPath></text>
+      </svg>
+      <div style="position:relative;font-family:'Playfair Display',serif;font-weight:600;font-size:min(28px,3.2vh);letter-spacing:-0.01em;white-space:nowrap;">2014-23</div>
+      </div>
+    </div>
+  </section>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;skipIntro&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;parallax&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { entered: !!this.props.skipIntro, eyeOn: false };
+  eye = React.createRef(); arrow = React.createRef(); badge = React.createRef(); heroSec = React.createRef(); globeLayer = React.createRef(); storyLayer = React.createRef(); storyLayer2 = React.createRef(); quote2 = React.createRef(); quote3 = React.createRef(); coverLayer = React.createRef(); storyLayer3 = React.createRef(); storyLayer4 = React.createRef(); lmapLayer = React.createRef(); storyLayer5 = React.createRef(); storyLayer6 = React.createRef(); storyLayer7 = React.createRef(); storyLayer8 = React.createRef(); vidLayer = React.createRef(); vidEl = React.createRef(); lmapFrame = React.createRef(); lmapBtn = React.createRef(); photoLayer = React.createRef(); routeUi = React.createRef(); globeFrame = React.createRef(); stage = React.createRef(); tilt = React.createRef(); rx = 0; ry = 0; lJ = React.createRef(); lImg = React.createRef(); lL = React.createRef(); badgeWrap = React.createRef(); rot = 0; m1 = React.createRef(); m2 = React.createRef(); m3 = React.createRef(); sun = React.createRef();
+
+  photos = [
+    ['assets/rickshaw.png', '風格華麗的印度建築'],
+    ['assets/street.png', '舊德里市集街道'],
+    ['assets/arch.png', '嘟嘟車'],
+    ['assets/humayun-photo.png', '胡馬雍陵'],
+    ['assets/story-2-1.jpg', '因為參加志工團，而認識拉達克這個地方'],
+    ['assets/story-2-3.jpg', 'Jamyang School'],
+    ['assets/story-2-2.jpg', '由研究藏人的社會學教授，以及達賴喇嘛基金會牽線，建立每年的志工交流活動'],
+    ['assets/story-2-4.jpg', '英文課、科學實驗課、衛教課'],
+    ['assets/story-2-5.jpg', '最重要的：電腦課'],
+    ['assets/story-c2-1.jpg', '「你們長大想做什麼？」'],
+    ['assets/story-c2-2.jpg', '我想要當體育老師，因為我很喜歡打板球，我想要教很多小朋友運動'],
+    ['assets/story-c2-3.jpg', '我想要當軍人，可以保護家人和這個地方'],
+    ['assets/story-c2-7.jpg', '衣食無缺的我，從來沒有想過，為什麼我要讀書、為什麼我可以去上學'],
+    ['assets/story-c2-4.jpg', '資源有限，必須獨立自主的小朋友們'],
+    ['assets/story-c2-5.jpg', 'Nanny 會管理生活秩序'],
+    ['assets/story-c2-6.jpg', 'Rinchen 幫我擦掉眼淚'],
+    ['assets/story-c3-1.jpg', '拉達克：海拔 3500-5600 的喜馬拉雅山城'],
+    ['assets/story-c3-2.jpg', '藏族飲食文化：\nMomo 餃子、\nThukpa 湯麵'],
+    ['assets/story-c3-3.jpg', '與西藏同源的文化，\n達賴喇嘛每年七月\n都會來此過生日'],
+    ['assets/story-c3-4.jpg', '藏傳佛教是\n當地人的文化根基'],
+    ['assets/story-c3-5.jpg', '善於唱歌和舞蹈的民族'],
+    ['assets/story-c3-6.jpg', '氂牛、寺廟'],
+    ['assets/story-c3-7.jpg', '邊境敏感地帶，直到 1974 年才開放，因此時間在拉達克停了下來'],
+    ['assets/story-c3-8b.jpg', '慢慢來，比較快。\n劇烈運動只會昏倒。'],
+    ['assets/story-c3-9.jpg', '停電、斷網、\n水結冰了，沒水可用。\n太多意外了，\n還是喝杯奶茶睡覺吧！'],
+    ['assets/story-c5-1.jpg', 'Shey Palace:\n拉達克古王國的皇宮，\n俯瞰印度河'],
+    ['assets/story-c5-2.jpg', '必須要在高海拔爬上爬下，\n參觀寺廟'],
+    ['assets/story-c5-3.jpg', '心肺耐力會帶你到美景'],
+    ['assets/story-c5-4.jpg', 'Thiksey Monastery:\n小布達拉宮之稱'],
+    ['assets/story-c5-5.jpg', 'Thiksey 的巨型佛像'],
+    ['assets/story-c5-6.jpg', 'Hemis Monastery:\n拉達克地區最大的寺廟'],
+    ['assets/story-c5-7.jpg', '感受自己的渺小'],
+    ['assets/story-c5-8.jpg', '冬天沒有人，\n也沒有水可以上廁所'],
+    ['assets/story-c5-9.jpg', '經典的拉達克寺院風格：\n白牆、木造陽台'],
+    ['assets/story-c5-10.jpg', 'Hemis Monastery:\n每年 6-7 月的重頭戲-Cham\n面具節舞蹈象徵驅邪與祈福'],
+    ['assets/story-c6-1.jpg', 'Lamayuru:\n最西邊的月球表面'],
+    ['assets/story-c6-2.jpg', 'Lamayuru: Moonland'],
+    ['assets/story-c6-3.jpg', 'Lamayuru Monastery'],
+    ['assets/story-c6-4.jpg', 'Basgo Monastery:\n16-17世紀，最強盛的 Namgyal 王朝古皇宮'],
+    ['assets/story-c6-5.jpg', '隨風飄揚的風馬旗'],
+    ['assets/story-c6-6.jpg', '象徵將經文中的祝福傳向四方'],
+    ['assets/story-c6-7.jpg', 'Alchi Monastery:\n11 世紀，拉達克最古老、\n最有藝術價值的寺院'],
+    ['assets/story-c6-8.jpg', '僧侶花數天排出精美的沙壇城，\n再親手將它毀去-\n提醒我們一切無常，\n不要執著於擁有。'],
+    ['assets/story-c7-1.jpg', '離開列城與寺廟，\n路開始變得原始'],
+    ['assets/story-c7-2.jpg', 'Khardung La：世界最高公路\n海拔 5600 公尺'],
+    ['assets/story-c7-3.jpg', '翻越 Khardung La 來到 Nubra Valley，\n景色變成了高山沙漠'],
+    ['assets/story-c7-4.jpg', '接下來前往，\n經典電影的名場面'],
+    ['assets/story-c7-5.jpg', '電影《三個傻瓜》'],
+    ['assets/story-c7-6.jpg', 'Pangong Tso 班公錯\nTso 是湖的意思'],
+    ['assets/story-c7-7.jpg', '冬天的班公錯：\n整個湖面都結冰了'],
+    ['assets/story-c8-1.jpg', 'Leh Main Bazaar:\n繁榮的列城市中心，\n城邊有 17 世紀的老皇宮'],
+    ['assets/story-c8-2.jpg', '從山坡下爬上皇宮'],
+    ['assets/story-c8-3.jpg', '甚至還有 Miniso 藏文招牌'],
+    ['assets/story-c8-4.jpg', '小巷子內的日用品攤販'],
+    ['assets/story-c8-5.jpg', '咖啡廳：2023 年後，網路普及，西方流行文化也開始出現在列城街頭'],
+    ['assets/story-c8-6.jpg', '第一次出現配有暖氣的現代化超市'],
+  ];
+  setOf(i) { return i < 4 ? [0, 4] : i < 9 ? [4, 9] : i < 13 ? [9, 13] : i < 16 ? [13, 16] : i < 25 ? [16, 25] : i < 35 ? [25, 35] : i < 43 ? [35, 43] : i < 50 ? [43, 50] : [50, 56]; }
+  cardEl(i) { return document.querySelector('[data-photo="' + i + '"]'); }
+  target(ar) {
+    const vw = window.innerWidth, vh = window.innerHeight, aw = vw * 0.53, ah = vh * 0.76;
+    let w = aw, h = w / ar; if (h > ah) { h = ah; w = h * ar; }
+    return { left: vw * 0.06 + (aw - w) / 2, top: (vh - h) / 2, width: w, height: h };
+  }
+  place(t) {
+    const img = this._lbEl, cap = this._capEl; if (!img) return;
+    Object.assign(img.style, { left: t.left + 'px', top: t.top + 'px', width: t.width + 'px', height: t.height + 'px' });
+    if (cap) cap.style.top = (t.top + t.height + 22) + 'px';
+  }
+  flyFrom(rect, t, ms, reverse) {
+    const img = this._lbEl;
+    const fr = `translate(${rect.left - t.left}px,${rect.top - t.top}px) scale(${rect.width / t.width},${rect.height / t.height})`;
+    const kf = reverse ? [{ transform: 'none' }, { transform: fr }] : [{ transform: fr }, { transform: 'none' }];
+    return img.animate(kf, { duration: ms, easing: 'cubic-bezier(.7,0,.2,1)', fill: 'forwards' });
+  }
+  setCardHidden(i, h) { const c = this.cardEl(i); if (c) c.style.visibility = h ? 'hidden' : ''; }
+  openLb(i) {
+    this.preload(); this.lbQueue = 0;
+    const card = this.cardEl(i); if (!card) return;
+    this.lbBusy = true; this.fadeT = 1;
+    this.setState({ lb: true, lbI: i, lbUi: 0, photoHover: false }, () => {
+      const r = card.getBoundingClientRect(), t = this.target(r.width / r.height);
+      this._lbEl.src = this.photos[i][0]; this.place(t); this.setCardHidden(i, true);
+      this.flyFrom(r, t, 950).onfinish = () => { this.lbBusy = false; this.setState({ lbUi: 1 }); };
+    });
+  }
+  closeLb() {
+    if (this.lbBusy) return; this.lbBusy = true;
+    const i = this.state.lbI, card = this.cardEl(i);
+    this.setState({ lbUi: 0 }); this.fadeT = 0;
+    const img = this._lbEl, t = img.getBoundingClientRect();
+    const r = card.getBoundingClientRect();
+    this.flyFrom(r, { left: t.left, top: t.top, width: t.width, height: t.height }, 850, true).onfinish = () => {
+      this.setCardHidden(i, false); this.lbBusy = false; this.setState({ lb: false });
+    };
+  }
+  preload() {
+    if (this._pre) return; this._pre = {};
+    this.photos.forEach(([src]) => { const im = new Image(); im.src = src; this._pre[src] = im.decode ? im.decode().catch(() => {}) : Promise.resolve(); });
+  }
+  stepLb(dir) {
+    if (this.lbBusy) { this.lbQueue = dir; return; }
+    this.lbBusy = true; this.preload();
+    const from = this.state.lbI, [s0, s1] = this.setOf(from), n = s1 - s0, to = s0 + (from - s0 + dir + n) % n, img = this._lbEl;
+    const src = this.photos[to][0], ready = this._pre[src] || Promise.resolve();
+    this.setState({ lbI: to });
+    img.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: `translateX(${-dir * 40}px)` }], { duration: 200, easing: 'ease-in', fill: 'forwards' }).finished.then(() => ready).then(() => {
+      this.setCardHidden(from, false); this.setCardHidden(to, true);
+      const c = this.cardEl(to).getBoundingClientRect(), t = this.target(c.width / c.height);
+      img.src = src;
+      return img.decode ? img.decode().catch(() => {}) : null;
+    }).then(() => {
+      const c = this.cardEl(to).getBoundingClientRect();
+      img.getAnimations().forEach(x => x.cancel());
+      this.place(this.target(c.width / c.height));
+      return img.animate([{ opacity: 0, transform: `translateX(${dir * 40}px)` }, { opacity: 1, transform: 'none' }], { duration: 360, easing: 'cubic-bezier(.2,.7,.2,1)', fill: 'forwards' }).finished;
+    }).then(() => {
+      this.lbBusy = false;
+      if (this.lbQueue) { const q = this.lbQueue; this.lbQueue = 0; this.stepLb(q); }
+    });
+  }
+  onDocClick = e => {
+    const el = e.target.closest && e.target.closest('[data-photo]');
+    if (el && !this.state.lb && parseFloat(el.closest('[data-zf]').style.opacity || 0) > 0.4) this.openLb(+el.dataset.photo);
+  };
+  onKey = e => {
+    if (!this.state.lb) return;
+    if (e.key === 'Escape') this.closeLb();
+    if (e.key === 'ArrowRight') this.stepLb(1);
+    if (e.key === 'ArrowLeft') this.stepLb(-1);
+  };
+  noScroll = e => { if (this.state.lb) e.preventDefault(); };
+  onGlobeMsg = e => {
+    const d = e.data; if (d && d.lmap === 'done') { this.setState({ lmapPlaying: false }); return; }
+    if (!d || !d.globe) return;
+    if (d.globe === 'arrived') this.setState(s => ({ routeLine: (s.routeLine || 'Taipei') + ' → ' + d.city }));
+    if (d.globe === 'done') this.setState({ flying: false });
+  };
+  componentDidMount() {
+    window.addEventListener('message', this.onGlobeMsg);
+    document.addEventListener('click', this.onDocClick);
+    window.addEventListener('keydown', this.onKey);
+    window.addEventListener('wheel', this.noScroll, { passive: false });
+    window.addEventListener('touchmove', this.noScroll, { passive: false });
+    window.addEventListener('mousemove', this.onWinMove); this.raf = requestAnimationFrame(this.tick);
+    if (!this.state.entered) document.body.style.overflow = 'hidden';
+    this.io = new IntersectionObserver(es => es.forEach(e => {
+      if (e.isIntersecting) { e.target.style.opacity = 1; e.target.style.transform = 'none'; this.io.unobserve(e.target); }
+    }), { threshold: 0.15 });
+    this.observe();
+  }
+  lbImg = el => { this._lbEl = el; };
+  lbCap = el => { this._capEl = el; };
+  componentDidUpdate() { this.observe(); }
+  componentWillUnmount() { window.removeEventListener('message', this.onGlobeMsg); document.removeEventListener('click', this.onDocClick); window.removeEventListener('keydown', this.onKey); window.removeEventListener('wheel', this.noScroll); window.removeEventListener('touchmove', this.noScroll); window.removeEventListener('mousemove', this.onWinMove); cancelAnimationFrame(this.raf); this.io && this.io.disconnect(); document.body.style.overflow = ''; }
+
+  observe() {
+    document.querySelectorAll('[data-reveal]:not([data-seen])').forEach((el, i) => {
+      el.setAttribute('data-seen', '1');
+      el.style.opacity = 0; el.style.transform = 'translateY(40px)';
+      el.style.transition = 'opacity 1.1s ease, transform 1.1s cubic-bezier(.2,.7,.2,1)';
+      el.style.transitionDelay = (i % 2) * 0.15 + 's';
+      this.io.observe(el);
+    });
+  }
+
+  tx = -100; ty = -100; cx = -100; cy = -100;
+  onWinMove = e => {
+    this.tx = e.clientX; this.ty = e.clientY;
+    const ph = e.target.closest && e.target.closest('[data-photo]');
+    const over = !!ph && !this.state.lb && parseFloat(ph.closest('[data-zf]').style.opacity || 0) > 0.4;
+    if (over !== !!this.state.photoHover) this.setState({ photoHover: over });
+    if (!this.state.moved) { this.cx = this.tx; this.cy = this.ty; this.setState({ moved: true }); }
+  };
+  tick = () => {
+    this.cx += (this.tx - this.cx) * 0.16; this.cy += (this.ty - this.cy) * 0.16;
+    if (this.arrow.current) this.arrow.current.style.transform = `translate(${this.cx - 2}px, ${this.cy - 2}px)`;
+    if (this.eye.current) this.eye.current.style.transform = `translate(${this.cx}px, ${this.cy}px)`;
+    this.rot = (this.rot + 0.12) % 360;
+    if (this.badge.current) this.badge.current.style.transform = `rotate(${this.rot}deg)`;
+    this.mnx = (this.mnx || 0) + ((this.tx / window.innerWidth - 0.5) - (this.mnx || 0)) * 0.05;
+    this.mny = (this.mny || 0) + ((this.ty / window.innerHeight - 0.5) - (this.mny || 0)) * 0.05;
+    this.zoom();
+    if (this.tilt.current) {
+      const nx = this.tx / window.innerWidth - 0.5, ny = this.ty / window.innerHeight - 0.5;
+      this.ry += (nx * 16 - this.ry) * 0.08; this.rx += (-ny * 10 - this.rx) * 0.08;
+            this.tilt.current.style.transform = `rotateX(${this.rx}deg) rotateY(${this.ry}deg)`;
+    }
+    this.raf = requestAnimationFrame(this.tick);
+  };
+  zp = 0;
+  zoom() {
+    const sec = this.heroSec.current; if (!sec) return;
+    const r = sec.getBoundingClientRect(), span = r.height - window.innerHeight;
+    const target = Math.min(1, Math.max(0, -r.top / span));
+    this.zp += (target - this.zp) * 0.12;
+    this.fa = (this.fa || 0) + ((this.fadeT || 0) - (this.fa || 0)) * 0.14;
+    const U = this.zp * 10900, ZP = Math.min(1, U / 1240), N = Math.max(0, U - 1240) / 600, I2 = Math.min(1, Math.max(0, (U - 1840) / 200)), N2 = Math.max(0, U - 2040) / 600;
+    const P = 1000, travel = 2550, SPAN = 1240, SPLIT = 460 / SPAN, CARDS = 510 / SPAN, PU0 = 540 / SPAN, PU1 = 720 / SPAN, G0 = 720 / SPAN, G1 = 860 / SPAN, P0 = 900 / SPAN, P1 = 1080 / SPAN, S0 = 1080 / SPAN;
+    const push = Math.min(1, Math.max(0, (ZP - PU0) / (PU1 - PU0)));
+    const cam = Math.min(1, ZP / SPLIT) * travel;
+    const q = Math.min(1, Math.max(0, (ZP - SPLIT) / (CARDS - SPLIT)));
+    const g = Math.min(1, Math.max(0, (ZP - G0) / (G1 - G0)));
+    const h = Math.min(1, Math.max(0, (ZP - S0) / (1 - S0)));
+    this.hq = h;
+    const ph = Math.min(1, Math.max(0, (ZP - P0) / (P1 - P0)));
+    const pe = ph < .5 ? 4 * ph * ph * ph : 1 - Math.pow(-2 * ph + 2, 3) / 2;
+    const gOut = 1 - Math.min(1, ph * 4);
+    const pl = this.photoLayer.current;
+    if (pl) {
+      const pv = ph > 0 && h < 0.4;
+      pl.style.display = pv ? 'block' : 'none';
+      if (pv) { pl.style.opacity = 1 - Math.min(1, h / 0.35); pl.style.transform = `scale(${(1.15 - 0.15 * pe).toFixed(4)})`; }
+    }
+    const sl = this.storyLayer.current;
+    if (sl) { const he = 1 - Math.pow(1 - Math.min(1, Math.max(0, (h - 0.25) / 0.75)), 3); const pt = Math.min(1, N / 0.18); sl.style.display = h > 0.25 && pt < 1 ? 'flex' : 'none'; sl.style.opacity = he * (1 - pt); sl.style.transform = `scale(${((0.45 + 0.55 * he) * (1 + pt * pt * 6)).toFixed(4)})`; }
+    const camS = Math.max(0, (N - 0.06) / 0.94) * 3200, k01 = v => Math.min(1, Math.max(0, v));
+    (this.spEls || (this.spEls = sec.querySelectorAll('[data-sp]'))).forEach(el => {
+      const z = +el.dataset.z + camS, sc = P / (P - Math.min(z, P * 0.85));
+      const op0 = k01((z + 3400) / 900) * k01(N / 0.12) * (1 - k01((z - P * 0.3) / (P * 0.35))), op = op0 * (1 - this.fa);
+      el.style.opacity = op; el.style.display = op0 <= 0.001 || z > P * 0.8 ? 'none' : 'flex';
+      if (op0 <= 0.001) return;
+      el.style.transform = `translate(${(-this.mnx * 50 * sc).toFixed(1)}px,${(-this.mny * 30 * sc).toFixed(1)}px) scale(${sc.toFixed(4)})`;
+      const card = el.querySelector('[data-photo]'), foc = k01(1 - Math.abs(z + 60) / 420), hov = !this.state.lb && card.matches(':hover');
+      el.querySelector('[data-sptint]').style.opacity = hov ? 0 : (0.78 - 0.45 * foc).toFixed(3);
+      el.querySelector('img').style.filter = hov ? 'none' : 'grayscale(1)';
+    });
+    const sl2 = this.storyLayer2.current;
+    if (sl2) { const he = 1 - Math.pow(1 - I2, 3), pt = Math.min(1, N2 / 0.18); sl2.style.display = I2 > 0 && pt < 1 ? 'flex' : 'none'; sl2.style.opacity = he * (1 - pt); sl2.style.transform = `scale(${((0.45 + 0.55 * he) * (1 + pt * pt * 6)).toFixed(4)})`; }
+    const qt = this.quote2.current, Q = Math.min(1, Math.max(0, (U - 2520) / 240));
+    if (qt) { const he = 1 - Math.pow(1 - Q, 3); const N3 = Math.max(0, U - 2840) / 600, pt = Math.min(1, N3 / 0.18); qt.style.display = Q > 0 && pt < 1 ? 'flex' : 'none'; qt.style.opacity = he * (1 - pt) * (1 - this.fa); qt.style.transform = `scale(${((0.45 + 0.55 * he) * (1 + pt * pt * 6)).toFixed(4)})`; }
+    const N3 = Math.max(0, U - 2840) / 600;
+    const camS2 = Math.max(0, (N2 - 0.06) / 0.94) * 3200;
+    (this.sqEls || (this.sqEls = sec.querySelectorAll('[data-sq]'))).forEach(el => {
+      const z = +el.dataset.z + camS2, sc = P / (P - Math.min(z, P * 0.85));
+      const op0 = k01((z + 3400) / 900) * k01(N2 / 0.12) * (1 - k01((z - P * 0.3) / (P * 0.35))), op = op0 * (1 - this.fa);
+      el.style.opacity = op; el.style.display = op0 <= 0.001 || z > P * 0.8 ? 'none' : 'flex';
+      if (op0 <= 0.001) return;
+      el.style.transform = `translate(${(-this.mnx * 50 * sc).toFixed(1)}px,${(-this.mny * 30 * sc).toFixed(1)}px) scale(${sc.toFixed(4)})`;
+      const card = el.querySelector('[data-ph2]'), foc = k01(1 - Math.abs(z + 60) / 420), hov = !this.state.lb && card.matches(':hover');
+      el.querySelector('[data-sptint]').style.opacity = hov ? 0 : (0.78 - 0.45 * foc).toFixed(3);
+      const im = el.querySelector('img'); if (im) im.style.filter = hov ? 'none' : 'grayscale(1)';
+    });
+    const camS3 = Math.max(0, (N3 - 0.06) / 0.94) * 3200;
+    const qt3 = this.quote3.current, Q3 = Math.min(1, Math.max(0, (U - 3300) / 240));
+    const H3 = Math.min(1, Math.max(0, (U - 4040) / 240)), N4 = Math.max(0, U - 4280) / 600; this.h3 = H3;
+    const sl3 = this.storyLayer3.current;
+    if (sl3) { const he = 1 - Math.pow(1 - Math.min(1, Math.max(0, (H3 - 0.25) / 0.75)), 3), pt = Math.min(1, N4 / 0.18); sl3.style.display = H3 > 0.25 && pt < 1 ? 'flex' : 'none'; sl3.style.opacity = he * (1 - pt) * (1 - this.fa); sl3.style.transform = `scale(${((0.45 + 0.55 * he) * (1 + pt * pt * 6)).toFixed(4)})`; }
+    const I5 = Math.min(1, Math.max(0, (U - 5160) / 200)), N5 = Math.max(0, U - 5400) / 600; this.i5 = I5;
+    const sl4 = this.storyLayer4.current;
+    if (sl4) { const he = 1 - Math.pow(1 - I5, 3), pt = Math.min(1, N5 / 0.18); sl4.style.display = I5 > 0 && pt < 1 ? 'flex' : 'none'; sl4.style.opacity = he * (1 - pt) * (1 - this.fa); sl4.style.transform = `scale(${((0.45 + 0.55 * he) * (1 + pt * pt * 6)).toFixed(4)})`; }
+    const I6 = Math.min(1, Math.max(0, (U - 6300) / 200)), N6 = Math.max(0, U - 6540) / 600; this.i6 = I6;
+    const sl5 = this.storyLayer5.current;
+    if (sl5) { const he = 1 - Math.pow(1 - I6, 3), pt = Math.min(1, N6 / 0.18); sl5.style.display = I6 > 0 && pt < 1 ? 'flex' : 'none'; sl5.style.opacity = he * (1 - pt) * (1 - this.fa); sl5.style.transform = `scale(${((0.45 + 0.55 * he) * (1 + pt * pt * 6)).toFixed(4)})`; }
+    const I7 = Math.min(1, Math.max(0, (U - 7520) / 200)), N7 = Math.max(0, U - 7760) / 600; this.i7 = I7;
+    const sl6 = this.storyLayer6.current;
+    if (sl6) { const he = 1 - Math.pow(1 - I7, 3), pt = Math.min(1, N7 / 0.18); sl6.style.display = I7 > 0 && pt < 1 ? 'flex' : 'none'; sl6.style.opacity = he * (1 - pt) * (1 - this.fa); sl6.style.transform = `scale(${((0.45 + 0.55 * he) * (1 + pt * pt * 6)).toFixed(4)})`; }
+    const I8 = Math.min(1, Math.max(0, (U - 8580) / 200)), N8 = Math.max(0, U - 8820) / 600; this.i8 = I8;
+    const sl7 = this.storyLayer7.current;
+    if (sl7) { const he = 1 - Math.pow(1 - I8, 3), pt = Math.min(1, N8 / 0.18); sl7.style.display = I8 > 0 && pt < 1 ? 'flex' : 'none'; sl7.style.opacity = he * (1 - pt) * (1 - this.fa); sl7.style.transform = `scale(${((0.45 + 0.55 * he) * (1 + pt * pt * 6)).toFixed(4)})`; }
+    const I9 = Math.min(1, Math.max(0, (U - 9560) / 200)), N9 = Math.max(0, U - 9800) / 600; this.i9 = I9;
+    const sl8 = this.storyLayer8.current;
+    if (sl8) { const he = 1 - Math.pow(1 - I9, 3), pt = Math.min(1, N9 / 0.18); sl8.style.display = I9 > 0 && pt < 1 ? 'flex' : 'none'; sl8.style.opacity = he * (1 - pt) * (1 - this.fa); sl8.style.transform = `scale(${((0.45 + 0.55 * he) * (1 + pt * pt * 6)).toFixed(4)})`; }
+    const VD = Math.min(1, Math.max(0, (U - 10450) / 250)), vl = this.vidLayer.current, ve = this.vidEl.current;
+    if (vl) { const ve2 = VD < .5 ? 4 * VD * VD * VD : 1 - Math.pow(-2 * VD + 2, 3) / 2; vl.style.display = VD > 0 ? 'block' : 'none'; vl.style.pointerEvents = VD > 0.9 ? 'auto' : 'none'; vl.style.opacity = Math.min(1, VD * 2.5) * (1 - this.fa); vl.style.transform = `scale(${(1.15 - 0.15 * ve2).toFixed(4)})`; }
+    if (VD < 0.9 && this.state.endPhoto) this.setState({ endPhoto: false });
+    if (ve) { if (VD > 0 && ve.paused) { ve.muted = true; const p = ve.play(); p && p.catch(() => {}); } else if (VD <= 0 && !ve.paused) ve.pause(); }
+    const camS8 = Math.min(3600, Math.max(0, U - 9836) * 5.4);
+    (this.syEls || (this.syEls = sec.querySelectorAll('[data-sy]'))).forEach(el => {
+      const z = +el.dataset.z + camS8, sc = P / (P - Math.min(z, P * 0.85));
+      const op0 = k01((z + 1300) / 500) * k01((U - 9820) / 60) * (1 - k01((z - P * 0.3) / (P * 0.35))) * (1 - k01(VD * 2.5)), op = op0 * (1 - this.fa);
+      el.style.opacity = op; el.style.display = op0 <= 0.001 || z > P * 0.8 ? 'none' : 'flex';
+      if (op0 <= 0.001) return;
+      el.style.transform = `translate(${(-this.mnx * 50 * sc).toFixed(1)}px,${(-this.mny * 30 * sc).toFixed(1)}px) scale(${sc.toFixed(4)})`;
+      const card = el.querySelector('[data-ph2]'), foc = k01(1 - Math.abs(z + 60) / 420), hov = !this.state.lb && card.matches(':hover');
+      el.querySelector('[data-sptint]').style.opacity = hov ? 0 : (0.78 - 0.45 * foc).toFixed(3);
+      const im = el.querySelector('img'); if (im) im.style.filter = hov ? 'none' : 'grayscale(1)';
+    });
+    const camS7 = Math.min(4050, Math.max(0, U - 8856) * 5.4);
+    (this.sxEls || (this.sxEls = sec.querySelectorAll('[data-sx]'))).forEach(el => {
+      const z = +el.dataset.z + camS7, sc = P / (P - Math.min(z, P * 0.85));
+      const op0 = k01((z + 1300) / 500) * k01((U - 8840) / 60) * (1 - k01((z - P * 0.3) / (P * 0.35))) * (1 - k01(I9 / 0.5)), op = op0 * (1 - this.fa);
+      el.style.opacity = op; el.style.display = op0 <= 0.001 || z > P * 0.8 ? 'none' : 'flex';
+      if (op0 <= 0.001) return;
+      el.style.transform = `translate(${(-this.mnx * 50 * sc).toFixed(1)}px,${(-this.mny * 30 * sc).toFixed(1)}px) scale(${sc.toFixed(4)})`;
+      const card = el.querySelector('[data-ph2]'), foc = k01(1 - Math.abs(z + 60) / 420), hov = !this.state.lb && card.matches(':hover');
+      el.querySelector('[data-sptint]').style.opacity = hov ? 0 : (0.78 - 0.45 * foc).toFixed(3);
+      const im = el.querySelector('img'); if (im) im.style.filter = hov ? 'none' : 'grayscale(1)';
+    });
+    const camS6 = Math.min(4500, Math.max(0, U - 7796) * 5.4);
+    (this.swEls || (this.swEls = sec.querySelectorAll('[data-sw]'))).forEach(el => {
+      const z = +el.dataset.z + camS6, sc = P / (P - Math.min(z, P * 0.85));
+      const op0 = k01((z + 1300) / 500) * k01((U - 7780) / 60) * (1 - k01((z - P * 0.3) / (P * 0.35))) * (1 - k01(I8 / 0.5)), op = op0 * (1 - this.fa);
+      el.style.opacity = op; el.style.display = op0 <= 0.001 || z > P * 0.8 ? 'none' : 'flex';
+      if (op0 <= 0.001) return;
+      el.style.transform = `translate(${(-this.mnx * 50 * sc).toFixed(1)}px,${(-this.mny * 30 * sc).toFixed(1)}px) scale(${sc.toFixed(4)})`;
+      const card = el.querySelector('[data-ph2]'), foc = k01(1 - Math.abs(z + 60) / 420), hov = !this.state.lb && card.matches(':hover');
+      el.querySelector('[data-sptint]').style.opacity = hov ? 0 : (0.78 - 0.45 * foc).toFixed(3);
+      const im = el.querySelector('img'); if (im) im.style.filter = hov ? 'none' : 'grayscale(1)';
+    });
+    const camS5 = Math.min(5400, Math.max(0, U - 6576) * 5.4);
+    (this.suEls || (this.suEls = sec.querySelectorAll('[data-su]'))).forEach(el => {
+      const z = +el.dataset.z + camS5, sc = P / (P - Math.min(z, P * 0.85));
+      const op0 = k01((z + 1300) / 500) * k01((U - 6560) / 60) * (1 - k01((z - P * 0.3) / (P * 0.35))) * (1 - k01(I7 / 0.5)), op = op0 * (1 - this.fa);
+      el.style.opacity = op; el.style.display = op0 <= 0.001 || z > P * 0.8 ? 'none' : 'flex';
+      if (op0 <= 0.001) return;
+      el.style.transform = `translate(${(-this.mnx * 50 * sc).toFixed(1)}px,${(-this.mny * 30 * sc).toFixed(1)}px) scale(${sc.toFixed(4)})`;
+      const card = el.querySelector('[data-ph2]'), foc = k01(1 - Math.abs(z + 60) / 420), hov = !this.state.lb && card.matches(':hover');
+      el.querySelector('[data-sptint]').style.opacity = hov ? 0 : (0.78 - 0.45 * foc).toFixed(3);
+      const im = el.querySelector('img'); if (im) im.style.filter = hov ? 'none' : 'grayscale(1)';
+    });
+    const LM = Math.min(1, Math.max(0, (U - 5480) / 260)), lml = this.lmapLayer.current;
+    if (lml) { const le = 1 - Math.pow(1 - LM, 3); const lmo = 1 - Math.min(1, I6 / 0.5); lml.style.display = LM > 0 && lmo > 0 ? 'block' : 'none'; lml.style.opacity = Math.min(1, LM * 1.6) * lmo * (1 - this.fa); lml.style.transform = `scale(${(0.3 + 0.7 * le).toFixed(4)})`; const b = this.lmapBtn.current; if (b) { const bo = Math.min(1, Math.max(0, (LM - 0.75) / 0.25)); b.style.visibility = bo > 0.5 ? 'visible' : 'hidden'; } }
+    const camS4 = Math.min(4900, Math.max(0, U - 4316) * 5.4);
+    (this.stEls || (this.stEls = sec.querySelectorAll('[data-st]'))).forEach(el => {
+      const z = +el.dataset.z + camS4, sc = P / (P - Math.min(z, P * 0.85));
+      const op0 = k01((z + 1300) / 500) * k01((U - 4300) / 60) * (1 - k01((z - P * 0.3) / (P * 0.35))) * (1 - k01(I5 / 0.5)), op = op0 * (1 - this.fa);
+      el.style.opacity = op; el.style.display = op0 <= 0.001 || z > P * 0.8 ? 'none' : 'flex';
+      if (op0 <= 0.001) return;
+      el.style.transform = `translate(${(-this.mnx * 50 * sc).toFixed(1)}px,${(-this.mny * 30 * sc).toFixed(1)}px) scale(${sc.toFixed(4)})`;
+      const card = el.querySelector('[data-ph2]'), foc = k01(1 - Math.abs(z + 60) / 420), hov = !this.state.lb && card.matches(':hover');
+      el.querySelector('[data-sptint]').style.opacity = hov ? 0 : (0.78 - 0.45 * foc).toFixed(3);
+      const im = el.querySelector('img'); if (im) im.style.filter = hov ? 'none' : 'grayscale(1)';
+    });
+    const cv = this.coverLayer.current, C = Math.min(1, Math.max(0, (U - 3700) / 280));
+    if (cv) { const ce = C < .5 ? 4 * C * C * C : 1 - Math.pow(-2 * C + 2, 3) / 2; cv.style.display = C > 0 && H3 < 0.4 ? 'block' : 'none'; cv.style.opacity = (Math.min(1, C * 2.5) * (1 - Math.min(1, H3 / 0.35))).toFixed(3); cv.style.transform = `scale(${(1.15 - 0.15 * ce).toFixed(4)})`; }
+    if (qt3) { const he = 1 - Math.pow(1 - Q3, 3), qo = 1 - Math.min(1, C * 2.5); qt3.style.display = Q3 > 0 && qo > 0 ? 'flex' : 'none'; qt3.style.opacity = he * qo * (1 - this.fa); qt3.style.transform = `scale(${(0.45 + 0.55 * he).toFixed(4)})`; }
+    (this.srEls || (this.srEls = sec.querySelectorAll('[data-sr]'))).forEach(el => {
+      const z = +el.dataset.z + camS3, sc = P / (P - Math.min(z, P * 0.85));
+      const op0 = k01((z + 3400) / 900) * k01(N3 / 0.12) * (1 - k01((z - P * 0.3) / (P * 0.35))), op = op0 * (1 - this.fa);
+      el.style.opacity = op; el.style.display = op0 <= 0.001 || z > P * 0.8 ? 'none' : 'flex';
+      if (op0 <= 0.001) return;
+      el.style.transform = `translate(${(-this.mnx * 50 * sc).toFixed(1)}px,${(-this.mny * 30 * sc).toFixed(1)}px) scale(${sc.toFixed(4)})`;
+      const card = el.querySelector('[data-ph2]'), foc = k01(1 - Math.abs(z + 60) / 420), hov = !this.state.lb && card.matches(':hover');
+      el.querySelector('[data-sptint]').style.opacity = hov ? 0 : (0.78 - 0.45 * foc).toFixed(3);
+      const im = el.querySelector('img'); if (im) im.style.filter = hov ? 'none' : 'grayscale(1)';
+    });
+    const cam2 = push * 1550;
+    const gl = this.globeLayer.current, ru = this.routeUi.current;
+    if (gl) { const ge = 1 - Math.pow(1 - g, 3); gl.style.display = g > 0 && ph < 1 ? 'block' : 'none'; gl.style.opacity = Math.min(1, g * 1.6); gl.style.transform = `translateY(${(-pe * 105).toFixed(2)}%) scale(${0.3 + 0.7 * ge})`; gl.style.boxShadow = ph > 0 ? '0 30px 60px rgba(20,50,48,.35)' : 'none'; }
+    if (ru) { const uo = Math.min(1, Math.max(0, (g - 0.75) / 0.25)); ru.style.opacity = uo * gOut; ru.style.pointerEvents = uo * gOut > 0.5 ? 'auto' : 'none'; }
+    const tq = Math.min(1, Math.max(0, (cam - 1500) / 120)), teal = tq > 0.5;
+    this.tq = tq;
+    sec.querySelectorAll('[data-depth]').forEach(el => {
+      const d = +el.dataset.depth, isCard = el.dataset.zf && !el.dataset.title;
+      const z = (isCard ? +el.dataset.zf - (1 - q) * 500 : d + cam) + (el.dataset.zf ? cam2 : 0), k = el.dataset.zf ? 1 : (P - d) / P;
+      const zc = el.dataset.static ? +el.dataset.zf : Math.min(z, P * 0.85), sc = k * P / (P - zc);
+      const par = isCard ? `translate(${(-this.mnx * 60 * sc).toFixed(1)}px,${(-this.mny * 36 * sc).toFixed(1)}px) ` : '';
+      el.style.transform = `${par}scale(${sc.toFixed(4)})`;
+      const c01 = v => Math.min(1, Math.max(0, v));
+      let op;
+      if (el.dataset.title) op = teal ? 0.3 + 0.7 * c01((z + 500) / 300) : 0;
+      else if (isCard) op = q;
+      else op = z < P * 0.35 ? 1 : Math.max(0, 1 - (z - P * 0.35) / (P * 0.45));
+      if (el.dataset.zf) op *= 1 - c01((z - P * 0.4) / (P * 0.38));
+      el.style.opacity = op * (1 - this.fa);
+      el.style.display = z > P * 0.8 || op <= 0.001 ? 'none' : 'flex';
+    });
+    const p = ZP, cl = v => Math.min(1, Math.max(0, v));
+    const t = this.tq, mix = (a, b) => Math.round(a + (b - a) * t);
+    const n2 = Math.min(1, (this.hq || 0) * 1.6), m2 = (a, b) => Math.round(a + (b - a) * n2);
+    const m9 = (a, b) => Math.round(a + (b - a) * (this.i9 || 0)), m8 = (a, b) => Math.round(a + (b - a) * (this.i8 || 0)), m7 = (a, b) => Math.round(a + (b - a) * (this.i7 || 0)), m6 = (a, b) => Math.round(a + (b - a) * (this.i6 || 0)), m5 = (a, b) => Math.round(a + (b - a) * (this.i5 || 0)), n4 = Math.min(1, (this.h3 || 0) * 1.6), m3 = (a, b, c) => Math.round(Math.round(a + (b - a) * I2) + (c - Math.round(a + (b - a) * I2)) * n4);
+    if (this.stage.current) this.stage.current.style.background = `rgb(${m9(m8(m7(m6(m5(m3(m2(mix(174, 67), 3), 242, 81), 44), 41), 254), 39), 242)},${m9(m8(m7(m6(m5(m3(m2(mix(198, 138), 36), 207, 154), 89), 99), 205), 136), 242)},${m9(m8(m7(m6(m5(m3(m2(mix(193, 133), 58), 199, 169), 164), 85), 162), 150), 242)})`;
+    const onTeal = t > 0.5 && r.top <= 0 && r.bottom > window.innerHeight * 0.5;
+    const curC = onTeal && (this.i9 || 0) > 0.5 ? '#F91B07' : onTeal && (this.i8 || 0) > 0.5 ? '#022E36' : onTeal && (this.i7 || 0) > 0.5 ? '#30762F' : onTeal && (this.i6 || 0) > 0.5 ? '#F4D2EF' : onTeal && (this.i5 || 0) > 0.5 ? '#F4926A' : onTeal && n4 > 0.5 ? '#F5A90F' : onTeal && I2 > 0.5 ? '#1E44D8' : onTeal && n2 > 0.5 ? '#FF6F4F' : (this.state.lb && this.state.lbI >= 50 ? '#F91B07' : this.state.lb && this.state.lbI >= 43 ? '#022E36' : this.state.lb && this.state.lbI >= 35 ? '#30762F' : this.state.lb && this.state.lbI >= 25 ? '#F4D2EF' : this.state.lb && this.state.lbI >= 16 ? '#F5A90F' : this.state.lb && this.state.lbI >= 9 ? '#1E44D8' : this.state.lb && this.state.lbI >= 4 ? '#FF6F4F' : onTeal || this.state.lb ? '#F5CB7A' : '#1E3FD8');
+    document.querySelectorAll('[data-cursor-stroke]').forEach(n => n.setAttribute('stroke', curC));
+    document.querySelectorAll('[data-cursor-fill]').forEach(n => n.setAttribute('fill', curC));
+    const col = Math.min(1, Math.max(0, (q - 0.55) / 0.45));
+    sec.querySelectorAll('[data-tint]').forEach(n => { n.style.opacity = (+n.dataset.tint) * (1 - col); });
+    if (this.badgeWrap.current) this.badgeWrap.current.style.opacity = 1 - cl(p / 0.08);
+  }
+  moveEye(e) { this.tx = e.clientX; this.ty = e.clientY; }
+  renderVals() {
+    const { entered } = this.state;
+    const parallax = this.props.parallax ?? true;
+    return {
+      m1: this.m1, m2: this.m2, m3: this.m3, sun: this.sun, eye: this.eye, arrow: this.arrow, badge: this.badge, heroSec: this.heroSec, stage: this.stage, globeLayer: this.globeLayer, storyLayer: this.storyLayer, storyLayer2: this.storyLayer2, quote2: this.quote2, quote3: this.quote3, coverLayer: this.coverLayer, storyLayer3: this.storyLayer3, storyLayer4: this.storyLayer4, lmapLayer: this.lmapLayer, storyLayer5: this.storyLayer5, storyLayer6: this.storyLayer6, storyLayer7: this.storyLayer7, storyLayer8: this.storyLayer8, vidLayer: this.vidLayer, vidEl: this.vidEl,
+      vidClick: () => this.setState({ endPhoto: true }),
+      backToStart: e => { e.stopPropagation(); const sec = this.heroSec.current; if (!sec) return; const y0 = scrollY, y1 = sec.getBoundingClientRect().top + scrollY, t0 = performance.now(), D = 3200; const step = t => { const k = Math.min(1, (t - t0) / D), e2 = k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2; scrollTo(0, y0 + (y1 - y0) * e2); if (k < 1) requestAnimationFrame(step); }; requestAnimationFrame(step); },
+      endOp: this.state.endPhoto ? 1 : 0, endTf: this.state.endPhoto ? 'scale(1)' : 'scale(1.15)', endPe: this.state.endPhoto ? 'auto' : 'none', lmapFrame: this.lmapFrame, lmapBtn: this.lmapBtn,
+      lmapBg: this.state.lmapHover ? '#F4926A' : 'transparent', lmapInk: this.state.lmapHover ? '#2C59A4' : '#F4926A', lmapOpacity: this.state.lmapPlaying ? 0.35 : 1,
+      lmapOn: () => this.setState({ lmapHover: true }), lmapOff: () => this.setState({ lmapHover: false }),
+      lmapPlay: () => { if (this.state.lmapPlaying) return; this.setState({ lmapPlaying: true }); const w = this.lmapFrame.current && this.lmapFrame.current.contentWindow; w && w.postMessage({ lmap: 'play' }, '*'); }, photoLayer: this.photoLayer, routeUi: this.routeUi, globeFrame: this.globeFrame,
+      routeLine: this.state.routeLine || 'Taipei → Bangkok → New Delhi → Leh',
+      planeBg: this.state.planeHover ? '#F5CB7A' : 'transparent',
+      planeInk: this.state.planeHover ? '#438A85' : '#F5CB7A',
+      planeOpacity: this.state.flying ? 0.35 : 1,
+      planeOn: () => this.setState({ planeHover: true }),
+      planeOff: () => this.setState({ planeHover: false }),
+      fly: () => { if (this.state.flying) return; this.setState({ flying: true, routeLine: 'Taipei' }); const w = this.globeFrame.current && this.globeFrame.current.contentWindow; w && w.postMessage({ globe: 'fly' }, '*'); },
+      lbOpen: !!this.state.lb,
+      lbImg: this.lbImg, lbCap: this.lbCap, lbUi: this.state.lbUi ?? 0,
+      lbCaption: this.photos[this.state.lbI || 0][1],
+      lbIndex: (() => { const i = this.state.lbI || 0, [a, b] = this.setOf(i); return `${String(i - a + 1).padStart(2, '0')} / ${String(b - a).padStart(2, '0')}`; })(),
+      lbClose: () => this.closeLb(),
+      lbInk: this.lbInkVal = (this.state.lbI || 0) >= 50 ? '#F91B07' : (this.state.lbI || 0) >= 43 ? '#022E36' : (this.state.lbI || 0) >= 35 ? '#30762F' : (this.state.lbI || 0) >= 25 ? '#F4D2EF' : (this.state.lbI || 0) >= 16 ? '#F5A90F' : (this.state.lbI || 0) >= 9 ? '#1E44D8' : (this.state.lbI || 0) >= 4 ? '#FF6F4F' : '#F5CB7A',
+      lbInkSoft: (() => { const c = this.lbInkVal || '#F5CB7A'; const n = parseInt(c.slice(1), 16); return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},.22)`; })(),
+      stop: e => e.stopPropagation(),
+      lbPrev: e => { e.stopPropagation(); this.stepLb(-1); },
+      lbNext: e => { e.stopPropagation(); this.stepLb(1); }, tilt: this.tilt, lJ: this.lJ, lImg: this.lImg, lL: this.lL, badgeWrap: this.badgeWrap,
+      ringSize: this.state.eyeOn && !entered ? '100px' : '136px',
+      arrowOpacity: (this.state.eyeOn && !entered) || this.state.photoHover ? 0 : (this.state.moved ? 1 : 0),
+      eyeOpacity: (this.state.eyeOn && !entered) || this.state.photoHover ? 1 : 0,
+      eyeOn: e => { this.moveEye(e); this.setState({ eyeOn: true }); },
+      eyeOff: () => this.setState({ eyeOn: false }),
+      eyeMove: e => this.moveEye(e),
+      gateY: entered ? '-100%' : '0%',
+      gatePE: entered ? 'none' : 'auto',
+      enter: () => {
+        this.setState({ entered: true, eyeOn: false });
+        document.body.style.overflow = '';
+      },
+      restart: () => { window.scrollTo({ top: 0 }); document.body.style.overflow = 'hidden'; this.setState({ entered: false }); },
+      onGateMove: e => {
+        if (!parallax) return;
+        const x = e.clientX / window.innerWidth - 0.5, y = e.clientY / window.innerHeight - 0.5;
+        [[this.sun, 10], [this.m1, 18], [this.m2, 34], [this.m3, 54]].forEach(([r, k]) => {
+          if (r.current) r.current.style.transform = `translate(${-x * k}px, ${-y * k * 0.4}px)`;
+        });
+      },
+    };
+  }
+}
+</script>
+</body>
+</html>

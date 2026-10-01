@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ladakh Routes</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Noto+Serif+TC:wght@500;600&family=Inter:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/d3@7.9.0/dist/d3.min.js" integrity="sha384-CjloA8y00+1SDAUkjs099PVfnY2KmDC2BZnws9kh8D/lX1s46w6EPhpXdqMfjK6i" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/topojson-client@3.1.0/dist/topojson-client.min.js" integrity="sha384-Ukv1p/xTma6P4/2bY5KzWBw+ydSpXmhCMtyciIQVDJ1RmOxtCYNMF1uXT9T63H67" crossorigin="anonymous"></script>
+<style>
+html,body{margin:0;height:100%;overflow:hidden;background:#2C59A4;color:#F4926A}
+svg{display:block;width:100%;height:100%}
+#cap{position:absolute;left:0;right:0;top:8vh;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;pointer-events:none}
+#cap .k{font:700 12px Inter,sans-serif;letter-spacing:.2em;text-transform:uppercase;opacity:.85}
+#cap .t{font:600 clamp(22px,2.6vw,38px)/1.2 'Playfair Display','Noto Serif TC',serif;transition:opacity .4s}
+</style>
+</head>
+<body>
+<div id="cap"><div class="k">The Routes</div><div class="t" id="capT">Ladakh · 拉達克</div></div>
+<svg id="s"></svg>
+<script>
+const INK = '#F4926A';
+const P = {
+  leh:['Leh','列城',[77.5771,34.1526],[-12,18,'end']],
+  shey:['Shey Palace','謝宮',[77.6376,34.0727],[11,-3,'start']],
+  thiksey:['Thiksey Monastery','提克西寺',[77.6669,34.0563],[11,13,'start']],
+  hemis:['Hemis Monastery','黑米斯寺',[77.7034,33.9122],[11,6,'start']],
+  basgo:['Basgo Monastery','巴斯戈',[77.2735,34.2227],[8,-10,'start']],
+  likir:['Likir Monastery','里基爾寺',[77.2147,34.2869],[-10,-8,'end']],
+  alchi:['Alchi Monastery','阿基寺',[77.1754,34.2238],[-10,16,'end']],
+  lamayuru:['Lamayuru Monastery','喇嘛玉如寺',[76.7744,34.2833],[-11,5,'end']],
+  khardung:['Khardung La','卡東拉山口',[77.6047,34.2787],[11,-2,'start']],
+  hunder:['Hunder','杭德沙丘',[77.4793,34.5772],[-11,5,'end']],
+  changla:['Chang La','張拉山口',[77.9314,34.0478],null],
+  pangong:['Pangong Tso','班公錯',[78.4497,33.9213],[12,5,'start']],
+};
+const steps = [
+  { cap:'Leh · 列城', pts:['leh'], line:null },
+  { cap:'往東 · Shey · Thiksey · Hemis', pts:['shey','thiksey','hemis'], line:['leh','shey','thiksey','hemis'] },
+  { cap:'往西 · Basgo · Likir · Alchi · Lamayuru', pts:['basgo','likir','alchi','lamayuru'], line:['leh','basgo','likir','alchi','lamayuru'] },
+  { cap:'往北 · Khardung La · Hunder', pts:['khardung','hunder'], line:['leh','khardung','hunder'] },
+  { cap:'Pangong Tso · 班公錯', pts:['pangong'], line:['leh','changla','pangong'] },
+];
+const svg = d3.select('#s'), gBase = svg.append('g'), gLines = svg.append('g'), gPts = svg.append('g');
+const proj = d3.geoMercator(), path = d3.geoPath(proj);
+let topo = null, playing = false;
+const ll = k => Array.isArray(k) ? k : P[k][2];
+
+let geo = null, zoomT = 0;
+function layout() {
+  const W = innerWidth, H = innerHeight;
+  gBase.selectAll('*').remove();
+  if (!geo) return;
+  const lad = geo.features.find(f => f.properties.st === 'Ladakh' && !f.properties.d);
+  const view = f => { proj.center([0, 0]).translate([0, 0]).scale(1); f(); const c = proj.invert([W / 2, H / 2]); return { c, k: proj.scale() }; };
+  const A = view(() => proj.fitExtent([[W * 0.08, H * 0.2], [W * 0.92, H * 0.86]], lad));
+  const B = view(() => proj.fitExtent([[W * 0.16, H * 0.27], [W * 0.84, H * 0.84]], { type:'MultiPoint', coordinates: Object.values(P).map(p => p[2]) }));
+  const e = d3.easeCubicInOut(zoomT) * 0.72;
+  proj.center([0, 0]).scale(A.k * Math.pow(B.k / A.k, e)).translate([0, 0]);
+  const ca = proj(A.c), cb = proj(B.c);
+  proj.translate([W / 2 - (ca[0] + (cb[0] - ca[0]) * e), H / 2 - (ca[1] + (cb[1] - ca[1]) * e)]);
+  gBase.attr('opacity', 1);
+  gBase.append('path').attr('d', path(d3.geoGraticule().step([1, 1])())).attr('fill','none').attr('stroke', INK).attr('stroke-opacity', .06);
+  geo.features.filter(f => f.properties.st !== 'Ladakh').forEach(f => gBase.append('path').attr('d', path(f)).attr('fill','rgba(0,0,0,.10)').attr('stroke', INK).attr('stroke-opacity', .28).attr('stroke-width', .8));
+  gBase.append('path').attr('d', path(lad)).attr('fill','rgba(244,146,106,.10)').attr('stroke', INK).attr('stroke-opacity', .7).attr('stroke-width', 1.2);
+  geo.features.filter(f => f.properties.d).forEach(f => gBase.append('path').attr('d', path(f)).attr('fill','none').attr('stroke', INK).attr('stroke-opacity', .3).attr('stroke-dasharray','3 4').attr('stroke-width', .8));
+  const lab = (t, c, o, s, ls) => { const p = proj(c); gBase.append('text').attr('x', p[0]).attr('y', p[1]).attr('text-anchor','middle').attr('fill', INK).attr('fill-opacity', o).attr('font-family','Inter,sans-serif').attr('font-weight',700).attr('font-size', s).attr('letter-spacing', ls).text(t); };
+  [['CHINA',[78.2,36.6]],['CHINA (TIBET)',[81.6,33.2]],['PAKISTAN',[71.6,33.6]],['AFGHANISTAN',[72.2,36.9]],['JAMMU & KASHMIR',[74.7,33.15]],['HIMACHAL PRADESH',[77.6,31.75]]].forEach(([t, c]) => lab(t, c, .55, 12, '.22em'));
+  lab('LADAKH', [75.6, 35.3], .45, 16, '.35em');
+  [['KARGIL',[76.0,34.05]],['LEH',[78.6,34.85]]].forEach(([t, c]) => lab(t, c, .35, 11, '.25em'));
+  gLines.selectAll('path').attr('d', function () { return line(this.__keys); });
+  gPts.selectAll('g.pt').attr('transform', function () { const p = proj(P[this.__k][2]); return `translate(${p[0]},${p[1]})`; });
+}
+const line = keys => d3.line()(keys.map(k => proj(ll(k))));
+
+function addPoint(k, big) {
+  const g = gPts.append('g').attr('class','pt'); g.node().__k = k;
+  const p = proj(P[k][2]); g.attr('transform', `translate(${p[0]},${p[1]})`);
+  const ring = g.append('circle').attr('r', 0).attr('fill','none').attr('stroke', INK).attr('stroke-width', 1.2);
+  g.append('circle').attr('r', 0).attr('fill', INK).transition().duration(500).ease(d3.easeBackOut).attr('r', big ? 6.5 : 4.5);
+  ring.transition().duration(1100).ease(d3.easeCubicOut).attr('r', big ? 26 : 16).attr('stroke-opacity', 0).remove();
+  if (big) g.append('circle').attr('r', 12).attr('fill','none').attr('stroke', INK).attr('stroke-opacity', 0).transition().duration(600).attr('stroke-opacity', .6);
+  const [dx, dy, an] = P[k][3];
+  const t = g.append('text').attr('x', dx).attr('y', dy).attr('text-anchor', an).attr('fill', INK).attr('opacity', 0);
+  t.append('tspan').attr('font-family',"Inter,sans-serif").attr('font-weight', big ? 700 : 600).attr('font-size', big ? 18 : 13).text(P[k][0]);
+  t.transition().delay(200).duration(500).attr('opacity', 1);
+}
+function drawLine(keys, dur) {
+  return new Promise(res => {
+    const pth = gLines.append('path').attr('fill','none').attr('stroke', INK).attr('stroke-width', 2).attr('stroke-linecap','round').attr('stroke-linejoin','round').attr('d', line(keys));
+    pth.node().__keys = keys;
+    const L = pth.node().getTotalLength();
+    pth.attr('stroke-dasharray', `${L} ${L}`).attr('stroke-dashoffset', L).transition().duration(dur).ease(d3.easeCubicInOut).attr('stroke-dashoffset', 0)
+      .on('end', () => { pth.attr('stroke-dasharray', '5 6'); res(); });
+  });
+}
+const wait = ms => new Promise(r => setTimeout(r, ms));
+const capT = document.getElementById('capT');
+async function setCap(t) { capT.style.opacity = 0; await wait(250); capT.textContent = t; capT.style.opacity = 1; }
+
+async function play() {
+  if (playing) return; playing = true;
+  gLines.selectAll('*').remove(); gPts.selectAll('*').remove();
+  if (zoomT < 1) await new Promise(res => { const t0 = performance.now(), from = zoomT; const tm = d3.timer(() => { const k = Math.min(1, (performance.now() - t0) / 1800); zoomT = from + (1 - from) * k; layout(); if (k >= 1) { tm.stop(); res(); } }); });
+  for (const s of steps) {
+    setCap(s.cap); parent.postMessage({ lmap:'step', cap:s.cap }, '*');
+    if (s.line) {
+      const segs = s.line.length - 1, dur = 700 + segs * 450;
+      const done = drawLine(s.line, dur);
+      s.pts.forEach(k => { const i = s.line.indexOf(k); setTimeout(() => addPoint(k, false), dur * (i / segs) * 0.9); });
+      await done; await wait(900);
+    } else { addPoint(s.pts[0], true); await wait(1300); }
+  }
+  playing = false; parent.postMessage({ lmap:'done' }, '*');
+}
+addEventListener('message', e => { if (e.data && e.data.lmap === 'play') play(); });
+addEventListener('resize', layout);
+layout();
+d3.json('assets/ladakh-geo.json').then(g => { geo = g; layout(); });
+</script>
+</body>
+</html>
